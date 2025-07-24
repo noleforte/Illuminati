@@ -9,10 +9,12 @@
     :root {
       --main-bg: #0a0a0f;
       --accent: #e6c300;
+      --accent2: #00ffe7;
       --text: #eaeaea;
       --card-bg: #18181f;
       --glow: 0 0 32px 8px #e6c30044;
       --radius: 18px;
+      --glass: rgba(24,24,31,0.7);
     }
     * { box-sizing: border-box; }
     body {
@@ -22,6 +24,21 @@
       color: var(--text);
       min-height: 100vh;
       overflow-x: hidden;
+      position: relative;
+    }
+    body::before {
+      content: '';
+      position: fixed;
+      left: 0; top: 0; width: 100vw; height: 100vh;
+      background: radial-gradient(circle at 60% 20%, #e6c30022 0%, transparent 60%),
+                  radial-gradient(circle at 20% 80%, #00ffe722 0%, transparent 60%);
+      z-index: 0;
+      pointer-events: none;
+      animation: bgmove 12s infinite alternate;
+    }
+    @keyframes bgmove {
+      0% { filter: blur(0px); }
+      100% { filter: blur(8px); }
     }
     header {
       display: flex;
@@ -61,14 +78,14 @@
       display: block;
       width: 0;
       height: 2px;
-      background: var(--accent);
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
       transition: width 0.3s;
       margin-top: 2px;
     }
-    nav a:hover { color: var(--accent); }
+    nav a:hover { color: var(--accent2); }
     nav a:hover::after { width: 100%; }
     .hero {
-      min-height: 80vh;
+      min-height: 90vh;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -76,46 +93,78 @@
       text-align: center;
       position: relative;
       z-index: 1;
+      overflow: hidden;
     }
     .hero-title {
       font-family: 'Unbounded', sans-serif;
-      font-size: 3.2rem;
+      font-size: 3.5rem;
       color: var(--accent);
       letter-spacing: 3px;
       margin-bottom: 18px;
       text-shadow: 0 0 32px #e6c30055, 0 0 8px #fff1;
       animation: glow 2.5s infinite alternate;
+      line-height: 1.1;
+    }
+    .hero-sub {
+      font-size: 1.5rem;
+      color: var(--accent2);
+      margin-bottom: 32px;
+      font-family: 'Unbounded', sans-serif;
+      letter-spacing: 1.5px;
+      text-shadow: 0 0 16px #00ffe799;
+      animation: glow2 2.5s infinite alternate;
     }
     @keyframes glow {
       from { text-shadow: 0 0 12px #e6c30055, 0 0 8px #fff1; }
       to { text-shadow: 0 0 32px #e6c300cc, 0 0 24px #fff3; }
     }
+    @keyframes glow2 {
+      from { text-shadow: 0 0 8px #00ffe799; }
+      to { text-shadow: 0 0 32px #00ffe7cc; }
+    }
     .hero-desc {
-      font-size: 1.35rem;
+      font-size: 1.25rem;
       color: #eaeaea;
       max-width: 600px;
       margin: 0 auto 32px auto;
       opacity: 0.92;
     }
     .hero-btn {
-      background: var(--accent);
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
       color: #18181f;
       font-family: 'Unbounded', sans-serif;
-      font-size: 1.2rem;
-      padding: 16px 44px;
+      font-size: 1.3rem;
+      padding: 18px 54px;
       border: none;
       border-radius: var(--radius);
-      box-shadow: var(--glow);
+      box-shadow: 0 0 48px 8px #e6c30044, 0 0 24px 4px #00ffe744;
       cursor: pointer;
       transition: background 0.2s, box-shadow 0.2s, transform 0.2s;
       margin-top: 18px;
       font-weight: 700;
       letter-spacing: 1px;
+      text-shadow: 0 0 8px #fff8;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-btn::before {
+      content: '';
+      position: absolute;
+      left: -40%; top: 0; width: 40%; height: 100%;
+      background: linear-gradient(120deg, #fff8 0%, transparent 100%);
+      filter: blur(8px);
+      transform: skewX(-20deg);
+      animation: btnshine 2.5s infinite linear;
+      opacity: 0.7;
+    }
+    @keyframes btnshine {
+      0% { left: -40%; }
+      100% { left: 110%; }
     }
     .hero-btn:hover {
-      background: #fffbe6;
-      box-shadow: 0 0 48px 12px #e6c300cc;
-      transform: scale(1.04);
+      background: linear-gradient(90deg, var(--accent2), var(--accent));
+      box-shadow: 0 0 64px 16px #e6c300cc, 0 0 32px 8px #00ffe7cc;
+      transform: scale(1.05);
     }
     .parallax-eye {
       position: absolute;
@@ -127,6 +176,11 @@
       pointer-events: none;
       transition: filter 0.3s;
       filter: blur(0.5px) brightness(1.2);
+      animation: eyePulse 6s infinite alternate;
+    }
+    @keyframes eyePulse {
+      0% { filter: blur(0.5px) brightness(1.2); }
+      100% { filter: blur(2px) brightness(1.4); }
     }
     section {
       padding: 80px 7vw 60px 7vw;
@@ -142,160 +196,93 @@
       letter-spacing: 2px;
       text-shadow: 0 0 16px #e6c30044;
     }
-    .about {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 18px;
-      max-width: 700px;
-      margin: 0 auto;
-      font-size: 1.18rem;
-      opacity: 0.93;
-    }
-    .features {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 32px;
-      justify-content: center;
-      margin-top: 32px;
-    }
-    .feature-card {
-      background: var(--card-bg);
+    .about, .howtobuy, .tokenomics {
+      background: var(--glass);
       border-radius: var(--radius);
-      box-shadow: 0 0 24px 2px #e6c30011;
-      padding: 36px 28px 28px 28px;
-      min-width: 260px;
-      max-width: 320px;
-      flex: 1 1 260px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      transition: transform 0.2s, box-shadow 0.2s;
-      position: relative;
-      overflow: hidden;
-      opacity: 0;
-      transform: translateY(40px);
+      box-shadow: 0 0 32px 4px #e6c30011, 0 0 24px 2px #00ffe711;
+      max-width: 800px;
+      margin: 0 auto 32px auto;
+      padding: 36px 32px;
+      font-size: 1.18rem;
+      opacity: 0.95;
+      backdrop-filter: blur(8px);
       animation: fadeInUp 1.2s forwards;
+      transform: translateY(40px);
     }
-    .feature-card:nth-child(1) { animation-delay: 0.1s; }
-    .feature-card:nth-child(2) { animation-delay: 0.3s; }
-    .feature-card:nth-child(3) { animation-delay: 0.5s; }
-    .feature-card:nth-child(4) { animation-delay: 0.7s; }
     @keyframes fadeInUp {
       to {
         opacity: 1;
         transform: translateY(0);
       }
     }
-    .feature-icon {
-      margin-bottom: 18px;
-      width: 48px;
-      height: 48px;
-      filter: drop-shadow(0 0 8px #e6c30088);
-    }
-    .feature-title {
-      font-family: 'Unbounded', sans-serif;
-      font-size: 1.18rem;
-      color: var(--accent);
-      margin-bottom: 10px;
-      text-align: center;
-    }
-    .feature-desc {
-      text-align: center;
-      font-size: 1.05rem;
-      color: #eaeaea;
-      opacity: 0.88;
-    }
-    .roadmap {
-      max-width: 900px;
-      margin: 0 auto;
-    }
-    .roadmap-list {
+    .howtobuy-steps {
+      margin-top: 18px;
+      padding-left: 0;
       list-style: none;
-      padding: 0;
-      margin: 0;
-      display: flex;
-      flex-direction: column;
-      gap: 32px;
     }
-    .roadmap-item {
-      background: var(--card-bg);
-      border-radius: var(--radius);
-      box-shadow: 0 0 18px 2px #e6c30011;
-      padding: 28px 32px;
+    .howtobuy-steps li {
+      margin-bottom: 18px;
+      padding-left: 0;
       position: relative;
-      overflow: hidden;
-      opacity: 0;
-      transform: translateY(40px);
-      animation: fadeInUp 1.2s forwards;
+      font-size: 1.08rem;
+      color: var(--accent2);
+      text-shadow: 0 0 8px #00ffe744;
+      font-family: 'Montserrat', sans-serif;
     }
-    .roadmap-item:nth-child(1) { animation-delay: 0.1s; }
-    .roadmap-item:nth-child(2) { animation-delay: 0.3s; }
-    .roadmap-item:nth-child(3) { animation-delay: 0.5s; }
-    .roadmap-item:nth-child(4) { animation-delay: 0.7s; }
-    .roadmap-title {
-      font-family: 'Unbounded', sans-serif;
+    .tokenomics-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 18px;
+      color: var(--text);
+    }
+    .tokenomics-table th, .tokenomics-table td {
+      border-bottom: 1px solid #333;
+      padding: 10px 0;
+      text-align: left;
+    }
+    .tokenomics-table th {
       color: var(--accent);
+      font-family: 'Unbounded', sans-serif;
       font-size: 1.1rem;
-      margin-bottom: 8px;
     }
-    .roadmap-desc {
-      color: #eaeaea;
-      opacity: 0.85;
-      font-size: 1.01rem;
+    .tokenomics-table td {
+      font-size: 1.05rem;
     }
-    .team {
+    .socials {
       display: flex;
-      flex-wrap: wrap;
-      gap: 32px;
       justify-content: center;
+      gap: 32px;
       margin-top: 32px;
+      margin-bottom: 24px;
     }
-    .team-card {
-      background: var(--card-bg);
-      border-radius: var(--radius);
-      box-shadow: 0 0 18px 2px #e6c30011;
-      padding: 32px 24px 24px 24px;
-      min-width: 220px;
-      max-width: 260px;
-      flex: 1 1 220px;
+    .social-link {
       display: flex;
-      flex-direction: column;
       align-items: center;
-      opacity: 0;
-      transform: translateY(40px);
-      animation: fadeInUp 1.2s forwards;
-    }
-    .team-card:nth-child(1) { animation-delay: 0.1s; }
-    .team-card:nth-child(2) { animation-delay: 0.3s; }
-    .team-card:nth-child(3) { animation-delay: 0.5s; }
-    .team-card:nth-child(4) { animation-delay: 0.7s; }
-    .team-avatar {
-      width: 72px;
-      height: 72px;
-      border-radius: 50%;
-      margin-bottom: 14px;
-      border: 2px solid var(--accent);
-      box-shadow: 0 0 16px #e6c30044;
-      object-fit: cover;
-    }
-    .team-name {
+      gap: 10px;
+      color: var(--accent2);
+      font-size: 1.18rem;
+      text-decoration: none;
       font-family: 'Unbounded', sans-serif;
-      color: var(--accent);
-      font-size: 1.1rem;
-      margin-bottom: 4px;
+      padding: 12px 24px;
+      border-radius: 12px;
+      background: rgba(0,255,231,0.07);
+      box-shadow: 0 0 16px #00ffe744;
+      transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+      text-shadow: 0 0 8px #00ffe799;
     }
-    .team-role {
-      color: #eaeaea;
-      opacity: 0.8;
-      font-size: 0.98rem;
-      margin-bottom: 8px;
+    .social-link:hover {
+      background: linear-gradient(90deg, var(--accent2), var(--accent));
+      color: #18181f;
+      box-shadow: 0 0 32px #e6c30099, 0 0 24px #00ffe799;
     }
-    .team-desc {
-      color: #eaeaea;
-      opacity: 0.85;
-      font-size: 0.98rem;
+    .contract {
       text-align: center;
+      margin-top: 18px;
+      color: var(--accent2);
+      font-family: 'Unbounded', sans-serif;
+      font-size: 1.1rem;
+      word-break: break-all;
+      text-shadow: 0 0 8px #00ffe799;
     }
     footer {
       background: #0a0a0f;
@@ -308,15 +295,14 @@
       opacity: 0.85;
     }
     @media (max-width: 900px) {
-      .features, .team { flex-direction: column; align-items: center; }
       section { padding: 60px 4vw 40px 4vw; }
       header { padding: 24px 4vw 0 4vw; }
+      .socials { flex-direction: column; gap: 18px; }
     }
     @media (max-width: 600px) {
       .hero-title { font-size: 2.1rem; }
       .section-title { font-size: 1.3rem; }
-      .feature-card, .team-card { min-width: 90vw; max-width: 98vw; }
-      .roadmap-item { padding: 18px 8px; }
+      .about, .howtobuy, .tokenomics { padding: 18px 8px; }
     }
   </style>
 </head>
@@ -328,97 +314,53 @@
     </div>
     <nav>
       <a href="#about">About</a>
-      <a href="#features">Features</a>
-      <a href="#roadmap">Roadmap</a>
-      <a href="#team">Team</a>
+      <a href="#howtobuy">How to Buy</a>
+      <a href="#tokenomics">Tokenomics</a>
+      <a href="#socials">Socials</a>
     </nav>
   </header>
   <main>
     <section class="hero">
-      <div class="hero-title">Unveil the Future of Crypto<br>with <span style="color:#fff;">ILLUMINATI</span> on SOL</div>
-      <div class="hero-desc">A secret society of innovation. Experience the next level of blockchain luxury, privacy, and power. Join the Illuminati — where only the chosen thrive.</div>
-      <button class="hero-btn" onclick="window.scrollTo({top: document.getElementById('about').offsetTop-60, behavior:'smooth'})">Join the Order</button>
+      <div class="hero-title">You've felt it all your life,<br>the hidden power behind everything.</div>
+      <div class="hero-sub">Unveil the secrets. Join the Illuminati on SOL.</div>
+      <div class="hero-desc">A mysterious crypto society. Experience the next level of blockchain luxury, privacy, and power. <b>Only the chosen will thrive.</b></div>
+      <button class="hero-btn" onclick="window.scrollTo({top: document.getElementById('howtobuy').offsetTop-60, behavior:'smooth'})">Buy Now</button>
       <svg class="parallax-eye" id="parallaxEye" width="420" height="420" viewBox="0 0 420 420" fill="none"><circle cx="210" cy="210" r="200" stroke="#e6c300" stroke-width="4"/><polygon points="210,60 360,360 60,360" fill="none" stroke="#e6c300" stroke-width="4"/><ellipse cx="210" cy="260" rx="40" ry="60" fill="#e6c300" opacity="0.13"/><circle cx="210" cy="260" r="22" fill="#e6c300"/></svg>
     </section>
     <section id="about">
       <div class="section-title">About Illuminati SOL</div>
-      <div class="about">Illuminati SOL is a premium crypto project built on the Solana blockchain, blending secrecy, speed, and exclusivity. Our mission is to empower the elite with cutting-edge DeFi tools, private transactions, and a community that values both innovation and mystique.</div>
+      <div class="about">Illuminati SOL is a premium crypto project built on the Solana blockchain, blending secrecy, speed, and exclusivity. Our mission is to empower the elite with cutting-edge DeFi tools, private transactions, and a community that values both innovation and mystique.<br><br>Owning Illuminati SOL is more than an investment; it's an invitation to be part of the chosen group of enlightened holders, poised to influence the future of wealth and financial empowerment.</div>
     </section>
-    <section id="features">
-      <div class="section-title">Features</div>
-      <div class="features">
-        <div class="feature-card">
-          <svg class="feature-icon" viewBox="0 0 32 32"><circle cx="16" cy="16" r="15" stroke="#e6c300" stroke-width="2" fill="none"/><path d="M8 24L16 8L24 24Z" stroke="#e6c300" stroke-width="2" fill="none"/></svg>
-          <div class="feature-title">Elite Privacy</div>
-          <div class="feature-desc">Advanced cryptography ensures your transactions remain confidential and secure.</div>
-        </div>
-        <div class="feature-card">
-          <svg class="feature-icon" viewBox="0 0 32 32"><rect x="4" y="4" width="24" height="24" rx="8" stroke="#e6c300" stroke-width="2" fill="none"/><circle cx="16" cy="16" r="6" stroke="#e6c300" stroke-width="2" fill="none"/></svg>
-          <div class="feature-title">Lightning Speed</div>
-          <div class="feature-desc">Harness the power of Solana for instant, low-fee transactions and seamless DeFi experiences.</div>
-        </div>
-        <div class="feature-card">
-          <svg class="feature-icon" viewBox="0 0 32 32"><polygon points="16,4 28,28 4,28" stroke="#e6c300" stroke-width="2" fill="none"/><circle cx="16" cy="20" r="4" fill="#e6c300" opacity="0.18"/></svg>
-          <div class="feature-title">Exclusive Access</div>
-          <div class="feature-desc">Membership unlocks premium tools, private events, and a network of visionaries.</div>
-        </div>
-        <div class="feature-card">
-          <svg class="feature-icon" viewBox="0 0 32 32"><rect x="6" y="6" width="20" height="20" rx="6" stroke="#e6c300" stroke-width="2" fill="none"/><path d="M16 10V22" stroke="#e6c300" stroke-width="2"/><path d="M10 16H22" stroke="#e6c300" stroke-width="2"/></svg>
-          <div class="feature-title">DAO Governance</div>
-          <div class="feature-desc">Shape the future. Vote, propose, and decide — true power in the hands of the enlightened.</div>
-        </div>
-      </div>
-    </section>
-    <section id="roadmap">
-      <div class="section-title">Roadmap</div>
-      <div class="roadmap">
-        <ul class="roadmap-list">
-          <li class="roadmap-item">
-            <div class="roadmap-title">Q2 2024 — Genesis</div>
-            <div class="roadmap-desc">Project launch, website release, and community formation. The Order is revealed.</div>
-          </li>
-          <li class="roadmap-item">
-            <div class="roadmap-title">Q3 2024 — DeFi Tools</div>
-            <div class="roadmap-desc">Release of private swap, staking, and vaults. First DAO proposals and voting.</div>
-          </li>
-          <li class="roadmap-item">
-            <div class="roadmap-title">Q4 2024 — Expansion</div>
-            <div class="roadmap-desc">Exclusive partnerships, NFT drops, and global events for members only.</div>
-          </li>
-          <li class="roadmap-item">
-            <div class="roadmap-title">2025 — The Ascension</div>
-            <div class="roadmap-desc">Full ecosystem launch, cross-chain integration, and the rise of the Illuminati legacy.</div>
-          </li>
+    <section id="howtobuy">
+      <div class="section-title">How to Buy</div>
+      <div class="howtobuy">
+        <ul class="howtobuy-steps">
+          <li><b>1. Create a wallet:</b> Download Phantom or your preferred Solana wallet.</li>
+          <li><b>2. Get some SOL:</b> Buy SOL on an exchange and transfer it to your wallet.</li>
+          <li><b>3. Go to Jupiter:</b> Visit <a href="https://jup.ag/" target="_blank" style="color:var(--accent2);text-decoration:underline;">jup.ag</a> and connect your wallet.</li>
+          <li><b>4. Swap SOL for ILLUMINATI:</b> Paste the token address, select ILLUMINATI, and confirm the swap.</li>
         </ul>
       </div>
     </section>
-    <section id="team">
-      <div class="section-title">The Illuminated Team</div>
-      <div class="team">
-        <div class="team-card">
-          <img class="team-avatar" src="https://randomuser.me/api/portraits/men/32.jpg" alt="Avatar">
-          <div class="team-name">Aurelius</div>
-          <div class="team-role">Founder & Visionary</div>
-          <div class="team-desc">Architect of the Order. 10+ years in blockchain, DeFi, and secret societies.</div>
-        </div>
-        <div class="team-card">
-          <img class="team-avatar" src="https://randomuser.me/api/portraits/women/44.jpg" alt="Avatar">
-          <div class="team-name">Selene</div>
-          <div class="team-role">Lead Developer</div>
-          <div class="team-desc">Solana wizard. Building secure, scalable, and mystical smart contracts.</div>
-        </div>
-        <div class="team-card">
-          <img class="team-avatar" src="https://randomuser.me/api/portraits/men/85.jpg" alt="Avatar">
-          <div class="team-name">Orion</div>
-          <div class="team-role">Community Alchemist</div>
-          <div class="team-desc">Forging connections, growing the Illuminati network, and spreading the light.</div>
-        </div>
-        <div class="team-card">
-          <img class="team-avatar" src="https://randomuser.me/api/portraits/women/65.jpg" alt="Avatar">
-          <div class="team-name">Nyx</div>
-          <div class="team-role">Design & Branding</div>
-          <div class="team-desc">Crafting the visual identity of the Order. Luxury, mystery, and allure.</div>
-        </div>
+    <section id="tokenomics">
+      <div class="section-title">Tokenomics</div>
+      <div class="tokenomics">
+        <table class="tokenomics-table">
+          <tr><th>Total Supply</th><td>33,000,000,000,000</td></tr>
+          <tr><th>Liquidity</th><td>92% sent to pool, LP burnt</td></tr>
+          <tr><th>Contract</th><td>Renounced</td></tr>
+          <tr><th>Taxes</th><td>0%</td></tr>
+          <tr><th>Type</th><td>Community-driven, meme coin</td></tr>
+        </table>
+        <div class="contract">Token address: <span style="color:var(--accent);">(your SOL token address here)</span></div>
+      </div>
+    </section>
+    <section id="socials">
+      <div class="section-title">Join the Brotherhood</div>
+      <div class="socials">
+        <a class="social-link" href="#" target="_blank"><svg width="22" height="22" fill="none" viewBox="0 0 24 24"><path d="M22 5.924c-.793.352-1.645.59-2.538.698a4.48 4.48 0 0 0 1.963-2.475 8.94 8.94 0 0 1-2.828 1.082A4.48 4.48 0 0 0 11.5 9.5c0 .352.04.695.116 1.022C7.728 10.37 4.1 8.6 1.671 5.905a4.48 4.48 0 0 0-.607 2.257c0 1.557.793 2.933 2.003 3.74a4.48 4.48 0 0 1-2.03-.561v.057c0 2.176 1.548 3.993 3.6 4.406a4.48 4.48 0 0 1-2.025.077c.572 1.785 2.23 3.084 4.197 3.12A8.98 8.98 0 0 1 2 20.07a12.7 12.7 0 0 0 6.88 2.018c8.26 0 12.78-6.84 12.78-12.78 0-.195-.004-.39-.013-.583A9.13 9.13 0 0 0 24 4.59a8.98 8.98 0 0 1-2.6.713z" fill="currentColor"/></svg>Twitter</a>
+        <a class="social-link" href="#" target="_blank"><svg width="22" height="22" fill="none" viewBox="0 0 24 24"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.877v-6.987h-2.54v-2.89h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.242 0-1.63.771-1.63 1.562v1.875h2.773l-.443 2.89h-2.33v6.987C18.343 21.128 22 16.991 22 12c0-5.523-4.477-10-10-10z" fill="currentColor"/></svg>Telegram</a>
+        <a class="social-link" href="#" target="_blank"><svg width="22" height="22" fill="none" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" fill="none"/><path d="M8 12l2.5 2.5L16 9" stroke="currentColor" stroke-width="2" fill="none"/></svg>Dextools</a>
       </div>
     </section>
   </main>
@@ -445,7 +387,7 @@
     });
     // Fade-in on scroll for cards
     function revealOnScroll() {
-      document.querySelectorAll('.feature-card, .roadmap-item, .team-card').forEach(el => {
+      document.querySelectorAll('.about, .howtobuy, .tokenomics').forEach(el => {
         const rect = el.getBoundingClientRect();
         if (rect.top < window.innerHeight - 60) {
           el.style.opacity = 1;
