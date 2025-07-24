@@ -135,32 +135,44 @@
       background: none;
     }
     .slider {
-      width: 440px;
-      max-width: 95vw;
-      margin: 0 auto 36px auto;
-      position: relative;
-      border-radius: 28px;
-      overflow: hidden;
-      box-shadow: 0 0 48px #ffe06633, 0 0 32px #00ffae33;
-      animation: fadeInUp 1.2s 0.2s both;
+      border: 3.5px solid var(--accent);
+      box-shadow: 0 0 64px #ffe06655, 0 0 32px #e6c30033;
       background: linear-gradient(120deg, #18181f 60%, #101012 100%);
-      border: 2.5px solid var(--accent2);
+      border-radius: 32px;
+      overflow: hidden;
+      position: relative;
+      width: 480px;
+      max-width: 98vw;
+      margin: 0 auto 44px auto;
+      backdrop-filter: blur(6px) brightness(1.08);
+      transition: box-shadow 0.4s;
+      z-index: 2;
     }
     .slide {
       display: none;
       width: 100%;
-      height: 260px;
+      height: 280px;
       object-fit: cover;
-      transition: opacity 0.7s cubic-bezier(.4,2,.6,1);
-      opacity: 0;
       position: absolute;
       left: 0; top: 0;
+      opacity: 0;
+      transform: scale(1.08) rotate(-2deg) translateY(30px);
+      transition: opacity 0.7s cubic-bezier(.4,2,.6,1), transform 0.9s cubic-bezier(.4,2,.6,1);
+      z-index: 1;
+      filter: brightness(0.92) blur(1.5px) grayscale(0.08);
     }
     .slide.active {
       display: block;
       opacity: 1;
       position: relative;
-      animation: slideIn 1.2s cubic-bezier(.4,2,.6,1);
+      transform: scale(1) rotate(0deg) translateY(0);
+      z-index: 2;
+      filter: brightness(1.08) blur(0.5px) grayscale(0);
+      animation: slideInRich 1.2s cubic-bezier(.4,2,.6,1);
+    }
+    @keyframes slideInRich {
+      from { opacity: 0; transform: scale(1.12) rotate(-3deg) translateY(40px); }
+      to { opacity: 1; transform: scale(1) rotate(0deg) translateY(0); }
     }
     .slide-symbol {
       position: absolute;
@@ -171,39 +183,60 @@
       height: 120px;
       opacity: 0.22;
       pointer-events: none;
-      filter: drop-shadow(0 0 24px #ffe066cc);
-      animation: symbolSpin 12s linear infinite;
+      filter: drop-shadow(0 0 32px #ffe066cc);
+      animation: symbolSpin 12s linear infinite, symbolGlow 2.5s infinite alternate;
+      z-index: 3;
     }
     @keyframes symbolSpin {
       0% { transform: translate(-50%,-50%) rotate(0deg); }
       100% { transform: translate(-50%,-50%) rotate(360deg); }
     }
-    @keyframes slideIn {
-      from { opacity: 0; transform: scale(1.08); }
-      to { opacity: 1; transform: scale(1); }
+    @keyframes symbolGlow {
+      0% { filter: drop-shadow(0 0 16px #ffe06699); }
+      100% { filter: drop-shadow(0 0 48px #ffe066cc); }
+    }
+    .slide-caption {
+      position: absolute;
+      left: 0; right: 0; bottom: 18px;
+      text-align: center;
+      color: var(--accent);
+      font-family: 'Unbounded', sans-serif;
+      font-size: 1.18rem;
+      letter-spacing: 1.2px;
+      text-shadow: 0 0 16px #ffe066cc, 0 0 4px #101012;
+      z-index: 4;
+      opacity: 0.93;
+      pointer-events: none;
+      animation: fadeInUp 1.2s both;
     }
     .slider-controls {
       position: absolute;
       width: 100%;
-      bottom: 16px;
+      bottom: 12px;
       left: 0;
       display: flex;
       justify-content: center;
-      gap: 12px;
-      z-index: 2;
+      gap: 18px;
+      z-index: 5;
     }
     .slider-dot {
-      width: 14px; height: 14px;
+      width: 18px; height: 18px;
       border-radius: 50%;
-      background: #fff3;
-      border: 2.5px solid var(--neon);
+      background: #ffe06633;
+      border: 3px solid var(--accent2);
       cursor: pointer;
-      transition: background 0.2s, border 0.2s;
+      transition: background 0.2s, border 0.2s, box-shadow 0.2s;
+      box-shadow: 0 0 12px #ffe06655;
     }
     .slider-dot.active {
-      background: var(--neon);
-      border: 2.5px solid var(--accent);
-      box-shadow: 0 0 12px var(--neon);
+      background: var(--accent);
+      border: 3px solid #fffbe6;
+      box-shadow: 0 0 24px var(--accent);
+      animation: dotPulse 1.2s infinite alternate;
+    }
+    @keyframes dotPulse {
+      0% { box-shadow: 0 0 12px var(--accent); }
+      100% { box-shadow: 0 0 32px var(--accent2); }
     }
     .hero-title {
       font-family: 'Unbounded', sans-serif;
@@ -511,15 +544,18 @@
       <div class="slider" id="slider">
         <div style="position:relative;">
           <img class="slide active" src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=800&q=80" alt="Illuminati 1">
-          <svg class="slide-symbol" viewBox="0 0 64 64"><polygon points="32,12 54,52 10,52" fill="none" stroke="#e6c300" stroke-width="3"/><ellipse cx="32" cy="38" rx="7" ry="10" fill="#00ffae" opacity="0.18"/><circle cx="32" cy="38" r="4.5" fill="#e6c300"/></svg>
+          <svg class="slide-symbol" viewBox="0 0 64 64"><polygon points="32,12 54,52 10,52" fill="none" stroke="#ffe066" stroke-width="3"/><ellipse cx="32" cy="38" rx="7" ry="10" fill="#ffe066" opacity="0.18"/><circle cx="32" cy="38" r="4.5" fill="#ffe066"/></svg>
+          <div class="slide-caption">The All-Seeing Eye</div>
         </div>
         <div style="position:relative;">
           <img class="slide" src="https://images.unsplash.com/photo-1465101046530-73398c7f28ca?auto=format&fit=crop&w=800&q=80" alt="Illuminati 2">
-          <svg class="slide-symbol" viewBox="0 0 64 64"><polygon points="32,12 54,52 10,52" fill="none" stroke="#00ffae" stroke-width="3"/><ellipse cx="32" cy="38" rx="7" ry="10" fill="#e6c300" opacity="0.18"/><circle cx="32" cy="38" r="4.5" fill="#00ffae"/></svg>
+          <svg class="slide-symbol" viewBox="0 0 64 64"><polygon points="32,12 54,52 10,52" fill="none" stroke="#ffe066" stroke-width="3"/><ellipse cx="32" cy="38" rx="7" ry="10" fill="#ffe066" opacity="0.18"/><circle cx="32" cy="38" r="4.5" fill="#ffe066"/></svg>
+          <div class="slide-caption">Wealth in Shadows</div>
         </div>
         <div style="position:relative;">
           <img class="slide" src="https://images.unsplash.com/photo-1519125323398-675f0ddb6308?auto=format&fit=crop&w=800&q=80" alt="Illuminati 3">
-          <svg class="slide-symbol" viewBox="0 0 64 64"><polygon points="32,12 54,52 10,52" fill="none" stroke="#e6c300" stroke-width="3"/><ellipse cx="32" cy="38" rx="7" ry="10" fill="#00ffae" opacity="0.18"/><circle cx="32" cy="38" r="4.5" fill="#e6c300"/></svg>
+          <svg class="slide-symbol" viewBox="0 0 64 64"><polygon points="32,12 54,52 10,52" fill="none" stroke="#ffe066" stroke-width="3"/><ellipse cx="32" cy="38" rx="7" ry="10" fill="#ffe066" opacity="0.18"/><circle cx="32" cy="38" r="4.5" fill="#ffe066"/></svg>
+          <div class="slide-caption">Enlightenment Awaits</div>
         </div>
         <div class="slider-controls" id="sliderControls"></div>
       </div>
@@ -594,6 +630,14 @@
     function showSlide(idx) {
       slides.forEach((slide, i) => {
         slide.classList.toggle('active', i === idx);
+        // подписи и символы тоже скрываются/показываются через .active
+        if (slide.parentElement) {
+          Array.from(slide.parentElement.children).forEach(child => {
+            if (child.classList.contains('slide-symbol') || child.classList.contains('slide-caption')) {
+              child.style.display = (i === idx) ? '' : 'none';
+            }
+          });
+        }
       });
       Array.from(sliderControls.children).forEach((dot, i) => {
         dot.classList.toggle('active', i === idx);
@@ -610,7 +654,7 @@
       });
       setInterval(() => {
         showSlide((currentSlide + 1) % slides.length);
-      }, 4200);
+      }, 5200);
     }
     // Fade-in on scroll for cards
     function revealOnScroll() {
