@@ -1,0 +1,245 @@
+  <style>
+    :root {
+      --main-bg: #0a0a0f;
+      --accent: #e6c300;
+      --accent2: #00ffe7;
+      --text: #eaeaea;
+      --card-bg: #18181f;
+      --glow: 0 0 32px 8px #e6c30044;
+      --radius: 18px;
+      --glass: rgba(24,24,31,0.7);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: 'Montserrat', Arial, sans-serif;
+      background: linear-gradient(120deg, #0a0a0f 60%, #18181f 100%);
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+      position: relative;
+    }
+    body::before {
+      content: '';
+      position: fixed;
+      left: 0; top: 0; width: 100vw; height: 100vh;
+      background: radial-gradient(circle at 60% 20%, #e6c30022 0%, transparent 60%),
+                  radial-gradient(circle at 20% 80%, #00ffe722 0%, transparent 60%);
+      z-index: 0;
+      pointer-events: none;
+      animation: bgmove 12s infinite alternate;
+    }
+    @keyframes bgmove {
+      0% { filter: blur(0px); }
+      100% { filter: blur(8px); }
+    }
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 32px 7vw 0 7vw;
+      background: transparent;
+      z-index: 10;
+      position: relative;
+    }
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-family: 'Unbounded', sans-serif;
+      font-size: 2.1rem;
+      letter-spacing: 2px;
+      color: var(--accent);
+      text-shadow: 0 0 16px #e6c30099;
+      user-select: none;
+    }
+    .logo svg {
+      width: 38px; height: 38px;
+      filter: drop-shadow(0 0 8px #e6c30088);
+    }
+    nav {
+      display: flex;
+      gap: 36px;
+      position: relative;
+      z-index: 11;
+      background: rgba(10,10,15,0.85);
+      border-radius: 16px;
+      box-shadow: 0 2px 16px #e6c30022;
+      padding: 8px 28px;
+      top: 0;
+    }
+    nav a {
+      color: var(--text);
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 1.1rem;
+      transition: color 0.2s;
+      position: relative;
+      padding: 6px 0;
+      letter-spacing: 0.5px;
+    }
+    nav a::after {
+      content: '';
+      display: block;
+      width: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+      transition: width 0.3s;
+      margin-top: 2px;
+      border-radius: 2px;
+    }
+    nav a:hover { color: var(--accent2); }
+    nav a:hover::after { width: 100%; }
+    header {
+      position: sticky;
+      top: 0;
+      background: rgba(10,10,15,0.92);
+      box-shadow: 0 2px 24px #e6c30011;
+      backdrop-filter: blur(8px);
+      transition: background 0.3s;
+    }
+    .hero {
+      min-height: 90vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      position: relative;
+      z-index: 1;
+      overflow: hidden;
+    }
+    /* Слайдер */
+    .slider {
+      width: 420px;
+      max-width: 90vw;
+      margin: 0 auto 32px auto;
+      position: relative;
+      border-radius: 24px;
+      overflow: hidden;
+      box-shadow: 0 0 32px #e6c30033, 0 0 24px #00ffe733;
+      animation: fadeInUp 1.2s 0.2s both;
+    }
+    .slide {
+      display: none;
+      width: 100%;
+      height: 240px;
+      object-fit: cover;
+      transition: opacity 0.7s cubic-bezier(.4,2,.6,1);
+      opacity: 0;
+      position: absolute;
+      left: 0; top: 0;
+    }
+    .slide.active {
+      display: block;
+      opacity: 1;
+      position: relative;
+      animation: slideIn 1.2s cubic-bezier(.4,2,.6,1);
+    }
+    @keyframes slideIn {
+      from { opacity: 0; transform: scale(1.08); }
+      to { opacity: 1; transform: scale(1); }
+    }
+    .slider-controls {
+      position: absolute;
+      width: 100%;
+      bottom: 12px;
+      left: 0;
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      z-index: 2;
+    }
+    .slider-dot {
+      width: 12px; height: 12px;
+      border-radius: 50%;
+      background: #fff3;
+      border: 2px solid var(--accent2);
+      cursor: pointer;
+      transition: background 0.2s, border 0.2s;
+    }
+    .slider-dot.active {
+      background: var(--accent2);
+      border: 2px solid var(--accent);
+      box-shadow: 0 0 8px var(--accent2);
+    }
+    /* Усиленные анимации появления */
+    .about, .howtobuy, .tokenomics {
+      animation: fadeInUp 1.2s both;
+      opacity: 0;
+      transform: translateY(40px);
+    }
+    .about.visible, .howtobuy.visible, .tokenomics.visible {
+      opacity: 1;
+      transform: translateY(0);
+      transition: opacity 0.7s, transform 0.7s;
+    }
+    /* ... остальной CSS ... */
+  </style>
+  <main>
+    <section class="hero">
+      <div class="slider" id="slider">
+        <img class="slide active" src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=800&q=80" alt="Illuminati 1">
+        <img class="slide" src="https://images.unsplash.com/photo-1465101046530-73398c7f28ca?auto=format&fit=crop&w=800&q=80" alt="Illuminati 2">
+        <img class="slide" src="https://images.unsplash.com/photo-1519125323398-675f0ddb6308?auto=format&fit=crop&w=800&q=80" alt="Illuminati 3">
+        <div class="slider-controls" id="sliderControls"></div>
+      </div>
+      <div class="hero-title">You've felt it all your life,<br>the hidden power behind everything.</div>
+      <div class="hero-sub">Unveil the secrets. Join the Illuminati on SOL.</div>
+      <div class="hero-desc">A mysterious crypto society. Experience the next level of blockchain luxury, privacy, and power. <b>Only the chosen will thrive.</b></div>
+      <button class="hero-btn" onclick="window.scrollTo({top: document.getElementById('howtobuy').offsetTop-60, behavior:'smooth'})">Buy Now</button>
+      <svg class="parallax-eye" id="parallaxEye" width="420" height="420" viewBox="0 0 420 420" fill="none"><circle cx="210" cy="210" r="200" stroke="#e6c300" stroke-width="4"/><polygon points="210,60 360,360 60,360" fill="none" stroke="#e6c300" stroke-width="4"/><ellipse cx="210" cy="260" rx="40" ry="60" fill="#e6c300" opacity="0.13"/><circle cx="210" cy="260" r="22" fill="#e6c300"/></svg>
+    </section>
+  </main>
+  <script>
+    // Parallax effect for the Illuminati eye
+    const eye = document.getElementById('parallaxEye');
+    document.addEventListener('mousemove', e => {
+      const x = (e.clientX / window.innerWidth - 0.5) * 40;
+      const y = (e.clientY / window.innerHeight - 0.5) * 40;
+      eye.style.transform = `translate(-50%, -50%) rotate(${x/2}deg) skewY(${y/8}deg)`;
+      eye.style.filter = `blur(0.5px) brightness(1.2) drop-shadow(0 0 32px #e6c30033)`;
+    });
+    // Smooth scroll for nav links
+    document.querySelectorAll('nav a').forEach(link => {
+      link.addEventListener('click', function(e) {
+        e.preventDefault();
+        const id = this.getAttribute('href').slice(1);
+        const el = document.getElementById(id);
+        if (el) window.scrollTo({top: el.offsetTop-60, behavior:'smooth'});
+      });
+    });
+    // Слайдер hero
+    const slides = document.querySelectorAll('.slide');
+    const sliderControls = document.getElementById('sliderControls');
+    let currentSlide = 0;
+    function showSlide(idx) {
+      slides.forEach((slide, i) => {
+        slide.classList.toggle('active', i === idx);
+      });
+      Array.from(sliderControls.children).forEach((dot, i) => {
+        dot.classList.toggle('active', i === idx);
+      });
+      currentSlide = idx;
+    }
+    slides.forEach((_, i) => {
+      const dot = document.createElement('div');
+      dot.className = 'slider-dot' + (i === 0 ? ' active' : '');
+      dot.onclick = () => showSlide(i);
+      sliderControls.appendChild(dot);
+    });
+    setInterval(() => {
+      showSlide((currentSlide + 1) % slides.length);
+    }, 4200);
+    // Fade-in on scroll for cards
+    function revealOnScroll() {
+      document.querySelectorAll('.about, .howtobuy, .tokenomics').forEach(el => {
+        const rect = el.getBoundingClientRect();
+        if (rect.top < window.innerHeight - 60) {
+          el.classList.add('visible');
+        }
+      });
+    }
+    window.addEventListener('scroll', revealOnScroll);
+    window.addEventListener('load', revealOnScroll);
+  </script> 
