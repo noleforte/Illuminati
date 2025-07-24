@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ILLUMINATI SOL</title>
+  <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@700&family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --main-bg: #0a0a0f;
+      --accent: #e6c300;
+      --text: #eaeaea;
+      --card-bg: #18181f;
+      --glow: 0 0 32px 8px #e6c30044;
+      --radius: 18px;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: 'Montserrat', Arial, sans-serif;
+      background: linear-gradient(120deg, #0a0a0f 60%, #18181f 100%);
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 32px 7vw 0 7vw;
+      background: transparent;
+      z-index: 10;
+      position: relative;
+    }
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-family: 'Unbounded', sans-serif;
+      font-size: 2.1rem;
+      letter-spacing: 2px;
+      color: var(--accent);
+      text-shadow: 0 0 16px #e6c30099;
+      user-select: none;
+    }
+    .logo svg {
+      width: 38px; height: 38px;
+      filter: drop-shadow(0 0 8px #e6c30088);
+    }
+    nav a {
+      color: var(--text);
+      text-decoration: none;
+      margin-left: 32px;
+      font-weight: 600;
+      font-size: 1.1rem;
+      transition: color 0.2s;
+      position: relative;
+    }
+    nav a::after {
+      content: '';
+      display: block;
+      width: 0;
+      height: 2px;
+      background: var(--accent);
+      transition: width 0.3s;
+      margin-top: 2px;
+    }
+    nav a:hover { color: var(--accent); }
+    nav a:hover::after { width: 100%; }
+    .hero {
+      min-height: 80vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+    .hero-title {
+      font-family: 'Unbounded', sans-serif;
+      font-size: 3.2rem;
+      color: var(--accent);
+      letter-spacing: 3px;
+      margin-bottom: 18px;
+      text-shadow: 0 0 32px #e6c30055, 0 0 8px #fff1;
+      animation: glow 2.5s infinite alternate;
+    }
+    @keyframes glow {
+      from { text-shadow: 0 0 12px #e6c30055, 0 0 8px #fff1; }
+      to { text-shadow: 0 0 32px #e6c300cc, 0 0 24px #fff3; }
+    }
+    .hero-desc {
+      font-size: 1.35rem;
+      color: #eaeaea;
+      max-width: 600px;
+      margin: 0 auto 32px auto;
+      opacity: 0.92;
+    }
+    .hero-btn {
+      background: var(--accent);
+      color: #18181f;
+      font-family: 'Unbounded', sans-serif;
+      font-size: 1.2rem;
+      padding: 16px 44px;
+      border: none;
+      border-radius: var(--radius);
+      box-shadow: var(--glow);
+      cursor: pointer;
+      transition: background 0.2s, box-shadow 0.2s, transform 0.2s;
+      margin-top: 18px;
+      font-weight: 700;
+      letter-spacing: 1px;
+    }
+    .hero-btn:hover {
+      background: #fffbe6;
+      box-shadow: 0 0 48px 12px #e6c300cc;
+      transform: scale(1.04);
+    }
+    .parallax-eye {
+      position: absolute;
+      left: 50%;
+      top: 60%;
+      transform: translate(-50%, -50%);
+      z-index: 0;
+      opacity: 0.13;
+      pointer-events: none;
+      transition: filter 0.3s;
+      filter: blur(0.5px) brightness(1.2);
+    }
+    section {
+      padding: 80px 7vw 60px 7vw;
+      position: relative;
+      z-index: 1;
+    }
+    .section-title {
+      font-family: 'Unbounded', sans-serif;
+      font-size: 2.2rem;
+      color: var(--accent);
+      margin-bottom: 32px;
+      text-align: center;
+      letter-spacing: 2px;
+      text-shadow: 0 0 16px #e6c30044;
+    }
+    .about {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 18px;
+      max-width: 700px;
+      margin: 0 auto;
+      font-size: 1.18rem;
+      opacity: 0.93;
+    }
+    .features {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 32px;
+      justify-content: center;
+      margin-top: 32px;
+    }
+    .feature-card {
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      box-shadow: 0 0 24px 2px #e6c30011;
+      padding: 36px 28px 28px 28px;
+      min-width: 260px;
+      max-width: 320px;
+      flex: 1 1 260px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      transition: transform 0.2s, box-shadow 0.2s;
+      position: relative;
+      overflow: hidden;
+      opacity: 0;
+      transform: translateY(40px);
+      animation: fadeInUp 1.2s forwards;
+    }
+    .feature-card:nth-child(1) { animation-delay: 0.1s; }
+    .feature-card:nth-child(2) { animation-delay: 0.3s; }
+    .feature-card:nth-child(3) { animation-delay: 0.5s; }
+    .feature-card:nth-child(4) { animation-delay: 0.7s; }
+    @keyframes fadeInUp {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    .feature-icon {
+      margin-bottom: 18px;
+      width: 48px;
+      height: 48px;
+      filter: drop-shadow(0 0 8px #e6c30088);
+    }
+    .feature-title {
+      font-family: 'Unbounded', sans-serif;
+      font-size: 1.18rem;
+      color: var(--accent);
+      margin-bottom: 10px;
+      text-align: center;
+    }
+    .feature-desc {
+      text-align: center;
+      font-size: 1.05rem;
+      color: #eaeaea;
+      opacity: 0.88;
+    }
+    .roadmap {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    .roadmap-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 32px;
+    }
+    .roadmap-item {
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      box-shadow: 0 0 18px 2px #e6c30011;
+      padding: 28px 32px;
+      position: relative;
+      overflow: hidden;
+      opacity: 0;
+      transform: translateY(40px);
+      animation: fadeInUp 1.2s forwards;
+    }
+    .roadmap-item:nth-child(1) { animation-delay: 0.1s; }
+    .roadmap-item:nth-child(2) { animation-delay: 0.3s; }
+    .roadmap-item:nth-child(3) { animation-delay: 0.5s; }
+    .roadmap-item:nth-child(4) { animation-delay: 0.7s; }
+    .roadmap-title {
+      font-family: 'Unbounded', sans-serif;
+      color: var(--accent);
+      font-size: 1.1rem;
+      margin-bottom: 8px;
+    }
+    .roadmap-desc {
+      color: #eaeaea;
+      opacity: 0.85;
+      font-size: 1.01rem;
+    }
+    .team {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 32px;
+      justify-content: center;
+      margin-top: 32px;
+    }
+    .team-card {
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      box-shadow: 0 0 18px 2px #e6c30011;
+      padding: 32px 24px 24px 24px;
+      min-width: 220px;
+      max-width: 260px;
+      flex: 1 1 220px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      opacity: 0;
+      transform: translateY(40px);
+      animation: fadeInUp 1.2s forwards;
+    }
+    .team-card:nth-child(1) { animation-delay: 0.1s; }
+    .team-card:nth-child(2) { animation-delay: 0.3s; }
+    .team-card:nth-child(3) { animation-delay: 0.5s; }
+    .team-card:nth-child(4) { animation-delay: 0.7s; }
+    .team-avatar {
+      width: 72px;
+      height: 72px;
+      border-radius: 50%;
+      margin-bottom: 14px;
+      border: 2px solid var(--accent);
+      box-shadow: 0 0 16px #e6c30044;
+      object-fit: cover;
+    }
+    .team-name {
+      font-family: 'Unbounded', sans-serif;
+      color: var(--accent);
+      font-size: 1.1rem;
+      margin-bottom: 4px;
+    }
+    .team-role {
+      color: #eaeaea;
+      opacity: 0.8;
+      font-size: 0.98rem;
+      margin-bottom: 8px;
+    }
+    .team-desc {
+      color: #eaeaea;
+      opacity: 0.85;
+      font-size: 0.98rem;
+      text-align: center;
+    }
+    footer {
+      background: #0a0a0f;
+      color: #eaeaea;
+      text-align: center;
+      padding: 32px 0 18px 0;
+      font-size: 1.01rem;
+      letter-spacing: 1px;
+      border-top: 1px solid #222;
+      opacity: 0.85;
+    }
+    @media (max-width: 900px) {
+      .features, .team { flex-direction: column; align-items: center; }
+      section { padding: 60px 4vw 40px 4vw; }
+      header { padding: 24px 4vw 0 4vw; }
+    }
+    @media (max-width: 600px) {
+      .hero-title { font-size: 2.1rem; }
+      .section-title { font-size: 1.3rem; }
+      .feature-card, .team-card { min-width: 90vw; max-width: 98vw; }
+      .roadmap-item { padding: 18px 8px; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">
+      <svg viewBox="0 0 48 48" fill="none"><circle cx="24" cy="24" r="22" stroke="#e6c300" stroke-width="2"/><polygon points="24,10 38,38 10,38" fill="none" stroke="#e6c300" stroke-width="2"/><ellipse cx="24" cy="28" rx="4" ry="6" fill="#e6c300" opacity="0.18"/><circle cx="24" cy="28" r="2.2" fill="#e6c300"/></svg>
+      ILLUMINATI SOL
+    </div>
+    <nav>
+      <a href="#about">About</a>
+      <a href="#features">Features</a>
+      <a href="#roadmap">Roadmap</a>
+      <a href="#team">Team</a>
+    </nav>
+  </header>
+  <main>
+    <section class="hero">
+      <div class="hero-title">Unveil the Future of Crypto<br>with <span style="color:#fff;">ILLUMINATI</span> on SOL</div>
+      <div class="hero-desc">A secret society of innovation. Experience the next level of blockchain luxury, privacy, and power. Join the Illuminati — where only the chosen thrive.</div>
+      <button class="hero-btn" onclick="window.scrollTo({top: document.getElementById('about').offsetTop-60, behavior:'smooth'})">Join the Order</button>
+      <svg class="parallax-eye" id="parallaxEye" width="420" height="420" viewBox="0 0 420 420" fill="none"><circle cx="210" cy="210" r="200" stroke="#e6c300" stroke-width="4"/><polygon points="210,60 360,360 60,360" fill="none" stroke="#e6c300" stroke-width="4"/><ellipse cx="210" cy="260" rx="40" ry="60" fill="#e6c300" opacity="0.13"/><circle cx="210" cy="260" r="22" fill="#e6c300"/></svg>
+    </section>
+    <section id="about">
+      <div class="section-title">About Illuminati SOL</div>
+      <div class="about">Illuminati SOL is a premium crypto project built on the Solana blockchain, blending secrecy, speed, and exclusivity. Our mission is to empower the elite with cutting-edge DeFi tools, private transactions, and a community that values both innovation and mystique.</div>
+    </section>
+    <section id="features">
+      <div class="section-title">Features</div>
+      <div class="features">
+        <div class="feature-card">
+          <svg class="feature-icon" viewBox="0 0 32 32"><circle cx="16" cy="16" r="15" stroke="#e6c300" stroke-width="2" fill="none"/><path d="M8 24L16 8L24 24Z" stroke="#e6c300" stroke-width="2" fill="none"/></svg>
+          <div class="feature-title">Elite Privacy</div>
+          <div class="feature-desc">Advanced cryptography ensures your transactions remain confidential and secure.</div>
+        </div>
+        <div class="feature-card">
+          <svg class="feature-icon" viewBox="0 0 32 32"><rect x="4" y="4" width="24" height="24" rx="8" stroke="#e6c300" stroke-width="2" fill="none"/><circle cx="16" cy="16" r="6" stroke="#e6c300" stroke-width="2" fill="none"/></svg>
+          <div class="feature-title">Lightning Speed</div>
+          <div class="feature-desc">Harness the power of Solana for instant, low-fee transactions and seamless DeFi experiences.</div>
+        </div>
+        <div class="feature-card">
+          <svg class="feature-icon" viewBox="0 0 32 32"><polygon points="16,4 28,28 4,28" stroke="#e6c300" stroke-width="2" fill="none"/><circle cx="16" cy="20" r="4" fill="#e6c300" opacity="0.18"/></svg>
+          <div class="feature-title">Exclusive Access</div>
+          <div class="feature-desc">Membership unlocks premium tools, private events, and a network of visionaries.</div>
+        </div>
+        <div class="feature-card">
+          <svg class="feature-icon" viewBox="0 0 32 32"><rect x="6" y="6" width="20" height="20" rx="6" stroke="#e6c300" stroke-width="2" fill="none"/><path d="M16 10V22" stroke="#e6c300" stroke-width="2"/><path d="M10 16H22" stroke="#e6c300" stroke-width="2"/></svg>
+          <div class="feature-title">DAO Governance</div>
+          <div class="feature-desc">Shape the future. Vote, propose, and decide — true power in the hands of the enlightened.</div>
+        </div>
+      </div>
+    </section>
+    <section id="roadmap">
+      <div class="section-title">Roadmap</div>
+      <div class="roadmap">
+        <ul class="roadmap-list">
+          <li class="roadmap-item">
+            <div class="roadmap-title">Q2 2024 — Genesis</div>
+            <div class="roadmap-desc">Project launch, website release, and community formation. The Order is revealed.</div>
+          </li>
+          <li class="roadmap-item">
+            <div class="roadmap-title">Q3 2024 — DeFi Tools</div>
+            <div class="roadmap-desc">Release of private swap, staking, and vaults. First DAO proposals and voting.</div>
+          </li>
+          <li class="roadmap-item">
+            <div class="roadmap-title">Q4 2024 — Expansion</div>
+            <div class="roadmap-desc">Exclusive partnerships, NFT drops, and global events for members only.</div>
+          </li>
+          <li class="roadmap-item">
+            <div class="roadmap-title">2025 — The Ascension</div>
+            <div class="roadmap-desc">Full ecosystem launch, cross-chain integration, and the rise of the Illuminati legacy.</div>
+          </li>
+        </ul>
+      </div>
+    </section>
+    <section id="team">
+      <div class="section-title">The Illuminated Team</div>
+      <div class="team">
+        <div class="team-card">
+          <img class="team-avatar" src="https://randomuser.me/api/portraits/men/32.jpg" alt="Avatar">
+          <div class="team-name">Aurelius</div>
+          <div class="team-role">Founder & Visionary</div>
+          <div class="team-desc">Architect of the Order. 10+ years in blockchain, DeFi, and secret societies.</div>
+        </div>
+        <div class="team-card">
+          <img class="team-avatar" src="https://randomuser.me/api/portraits/women/44.jpg" alt="Avatar">
+          <div class="team-name">Selene</div>
+          <div class="team-role">Lead Developer</div>
+          <div class="team-desc">Solana wizard. Building secure, scalable, and mystical smart contracts.</div>
+        </div>
+        <div class="team-card">
+          <img class="team-avatar" src="https://randomuser.me/api/portraits/men/85.jpg" alt="Avatar">
+          <div class="team-name">Orion</div>
+          <div class="team-role">Community Alchemist</div>
+          <div class="team-desc">Forging connections, growing the Illuminati network, and spreading the light.</div>
+        </div>
+        <div class="team-card">
+          <img class="team-avatar" src="https://randomuser.me/api/portraits/women/65.jpg" alt="Avatar">
+          <div class="team-name">Nyx</div>
+          <div class="team-role">Design & Branding</div>
+          <div class="team-desc">Crafting the visual identity of the Order. Luxury, mystery, and allure.</div>
+        </div>
+      </div>
+    </section>
+  </main>
+  <footer>
+    &copy; 2024 Illuminati SOL. All rights reserved. | Built on Solana blockchain.
+  </footer>
+  <script>
+    // Parallax effect for the Illuminati eye
+    const eye = document.getElementById('parallaxEye');
+    document.addEventListener('mousemove', e => {
+      const x = (e.clientX / window.innerWidth - 0.5) * 40;
+      const y = (e.clientY / window.innerHeight - 0.5) * 40;
+      eye.style.transform = `translate(-50%, -50%) rotate(${x/2}deg) skewY(${y/8}deg)`;
+      eye.style.filter = `blur(0.5px) brightness(1.2) drop-shadow(0 0 32px #e6c30033)`;
+    });
+    // Smooth scroll for nav links
+    document.querySelectorAll('nav a').forEach(link => {
+      link.addEventListener('click', function(e) {
+        e.preventDefault();
+        const id = this.getAttribute('href').slice(1);
+        const el = document.getElementById(id);
+        if (el) window.scrollTo({top: el.offsetTop-60, behavior:'smooth'});
+      });
+    });
+    // Fade-in on scroll for cards
+    function revealOnScroll() {
+      document.querySelectorAll('.feature-card, .roadmap-item, .team-card').forEach(el => {
+        const rect = el.getBoundingClientRect();
+        if (rect.top < window.innerHeight - 60) {
+          el.style.opacity = 1;
+          el.style.transform = 'translateY(0)';
+        }
+      });
+    }
+    window.addEventListener('scroll', revealOnScroll);
+    window.addEventListener('load', revealOnScroll);
+  </script>
+</body>
+</html> 
